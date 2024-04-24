@@ -22,20 +22,20 @@ Aviso Importante
 Os dados de acesso ao banco de dados estão expostos neste projeto, pois é destinado a fins educacionais como projeto de estudo para alunos. Certifique-se de não utilizar informações sensíveis neste contexto.
 
 Endpoints
-POST /usuarios: Adiciona um novo usuário.
+POST /usuario: Adiciona um novo usuário.
 
 Corpo da requisição: { "nome": "Nome do Usuário", "email": "email@exemplo.com" }
 
-GET /usuarios: Retorna todos os usuários.
+GET /usuario: Retorna todos os usuários.
 
 Resposta: { "total": 3, "usuarios": [...] }
 
-PUT /usuarios/:id: Atualiza um usuário existente.
+PUT /usuario/:id: Atualiza um usuário existente.
 
 Parâmetros da URL: id do usuário.
 
 Corpo da requisição: { "nome": "Novo Nome", "email": "novoemail@exemplo.com" }
 
-DELETE /usuarios/:id: Exclui um usuário existente.
+DELETE /usuario/:id: Exclui um usuário existente.
 
 Parâmetros da URL: id do usuário.
