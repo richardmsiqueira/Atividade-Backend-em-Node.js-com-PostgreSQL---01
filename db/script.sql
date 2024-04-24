@@ -11,4 +11,4 @@ CREATE TABLE usuario (
     email VARCHAR(100) NOT NULL
 );
 
-INSERT INTO usuario (nome, sobrenome, data_nascimento, idade, signo, email) VALUES ('João', 'Silva', '1990-01-01', 30, 'Capricórnio', 'joaosilva@gmail.com');
+INSERT INTO usuario (nome, sobrenome, data_nascimento, idade, signo, email) VALUES ('Luana', 'Fassini', '2007-06-13', 16, 'gemeos', 'luana.fassini@aluno.senai.br');

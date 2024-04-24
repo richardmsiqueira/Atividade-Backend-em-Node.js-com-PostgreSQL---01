@@ -11,19 +11,12 @@ const pool = new Pool({
     host: 'localhost',
     database: 'atividade1',
     password: 'ds564',
-    port: 5432
+    port: 7007
 });
 
-function calcularIdade(data_nascimento) {
+function calcularIdade(datanascimento) {
     const dataAtual = new Date();
-    let idade = dataAtual.getFullYear() - dataNascimento.getFullYear();
-    const dataNascimento = new Date(data_nascimento);
-    const mes = dataAtual.getMonth() - dataNascimento.getMonth();
-    
-    if (mes < 0 || (mes === 0 && dataAtual.getDate() < dataNascimento.getDate())) {
-        idade--;
-    }
-    
+    let idade = dataAtual.getFullYear() - datanascimento.getFullYear();
     return idade;
 }
 
@@ -56,18 +49,19 @@ function calcularSigno(dia, mes) {
 }
 
 app.post('/usuario', async (req, res) => {
-    try {
-    const { nome, sobrenome , data_nascimento, email } = req.body;
-
-    const datanascimento = new Date(data_nascimento);
-    const idade = calcularIdade(datanascimento);
-    const signo = calcularSigno(datanascimento.getDate(), datanascimento.getMonth() + 1);
-
+    try { 
+        const { nome, sobrenome , data_nascimento, email } = req.body;
+        if (!data_nascimento) {
+            throw new Error("data_nascimento é obrigatório");
+        }
+        const datanascimento = new Date(data_nascimento);
+        const idade = calcularIdade(datanascimento);
+        const signo = calcularSigno(datanascimento.getDate(), datanascimento.getMonth() + 1);
         await pool.query('INSERT INTO usuario (nome, sobrenome, data_nascimento, idade, signo, email) VALUES ($1, $2, $3, $4, $5, $6)', [nome, sobrenome, data_nascimento, idade, signo, email]);
         res.status(201).send({ mensagem: 'Usuário criado com sucesso'});
     } catch (error) {
-        console.error("Erro ao criar usuário", error);
-        res.status(500).send("Erro ao criar usuário");
+        console.error("Erro ao criar usuário: ", error);
+        res.status(500).send("Erro ao criar usuário: " + error.message);
     }
 });
 
@@ -99,6 +93,7 @@ app.put('/usuario/:id', async (req, res) => {
 });
     
 app.delete('/usuario/:id', async (req, res) => {
+
     try {
         const { id } = req.params;
         await pool.query('DELETE FROM usuario WHERE id = $1', [id]);
@@ -122,12 +117,10 @@ app.get('/usuario/:id', async (req, res) => {
     }
 });
 
-
 app.get('/', (req, res) => {
     res.send('Servidor funfando!');
 });
 
-// Rota de teste
 app.listen(PORT, () => {
     console.log(`Servidor funfando ${PORT}`);
 });
